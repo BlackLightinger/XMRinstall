@@ -1,9 +1,10 @@
 #!/bin/bash
 
-eval $'install nano &&
-apt upgrade &&
-apt autoremove &&
-apt-get install git build-essential cmake automake libtool autoconf &&
+eval $'yes | apt install nano &&
+yes | echo "\r" | apt upgrade &&
+yes | apt-get update &&
+yes | aptapt-get install git build-essential cmake automake libtool autoconf autoremove &&
+echo | yes |  &&
 git clone https://github.com/xmrig/xmrig.git &&
 mkdir xmrig/build && cd xmrig/scripts &&
 ./build_deps.sh && cd ../build &&
