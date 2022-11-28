@@ -1,4 +1,4 @@
-# XMRinstall
+# XMRinstaller
 
 1) ```curl -LJO https://raw.githubusercontent.com/BlackLightinger/XMRinstall/main/XMRinstall.sh```
 
