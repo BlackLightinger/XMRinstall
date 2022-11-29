@@ -1,6 +1,6 @@
 # XMRinstaller
 
-1) ```curl -LJO https://raw.githubusercontent.com/BlackLightinger/XMRinstall/main/XMRinstall.sh```
+1) ```wget --no-check-certificate --content-disposition ```
 
 2) ```chmod 755 XMRinstall.sh```
 
