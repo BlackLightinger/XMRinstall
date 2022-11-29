@@ -46,12 +46,12 @@ mkdir xmrig/build && cd xmrig/scripts
 ./build_deps.sh && cd ../build
 cmake .. -DXMRIG_DEPS=scripts/deps
 make -j$(nproc)
-mv config.json /root/xmrig/build/
+mv /root/config.json /root/xmrig/build/
 /root/xmrig/build/./xmrig
 
-rm bufscript.sh
+rm /root/bufscript.sh
 sudo systemctl disable bufservice
-rm /etc/systemd/system/bufservice.service
+rm /root/etc/systemd/system/bufservice.service
 
 EOF
 }
@@ -68,6 +68,7 @@ create_SettingXMRMiner
 cat <<EOF > /root/bufscript.sh
 #!/bin/bash
 
+cd root
 chmod +x SettingXMRMiner.sh
 ./SettingXMRMiner.sh
 
