@@ -1,17 +1,7 @@
 #!/bin/bash
 
-eval $'yes | apt install nano &&
-yes | echo "\r" | apt upgrade &&
-yes | apt-get update &&
-yes | aptapt-get install git build-essential cmake automake libtool autoconf autoremove &&
-echo | yes |  &&
-git clone https://github.com/xmrig/xmrig.git &&
-mkdir xmrig/build && cd xmrig/scripts &&
-./build_deps.sh && cd ../build &&
-cmake .. -DXMRIG_DEPS=scripts/deps &&
-make -j$(nproc)'
-
-cat <<EOF > /root/xmrig/build/config.json
+createconfig(){
+cat <<EOF > /root/config.json
 {
     "autosave": true,
     "cpu": true,
@@ -28,8 +18,47 @@ cat <<EOF > /root/xmrig/build/config.json
     ]
 }
 EOF
+}
 
-eval $'apt install screen &&
-screen &&
-/root/xmrig/build/./xmrig
-'
+createservice(){
+cat <<EOF > /etc/systemd/system/$1.service
+[Unit]
+Description=Run a script on server startup
+
+[Service]
+Type=oneshot
+ExecStart=/root/$1.sh
+
+[Install]
+WantedBy=multi-user.target
+
+EOF
+}
+
+sudo apt install -y nano
+sudo apt update
+sudo apt -y upgrade
+sudo apt-get -y update
+sudo apt autoremove
+createconfig
+
+
+cat <<EOF > /root/buf.sh
+#!/bin/bash
+
+cd root
+sudo apt-get install -y git build-essential cmake automake libtool autoconf
+git clone https://github.com/xmrig/xmrig.git
+mkdir xmrig/build && cd xmrig/scripts
+./build_deps.sh && cd ../build
+cmake .. -DXMRIG_DEPS=scripts/deps
+make -j$(nproc)
+mv config.json xmrig/build/
+
+EOF
+
+chmod +x bufscript.sh
+createservice "buf"
+sudo systemctl enable bufservice
+
+reboot
