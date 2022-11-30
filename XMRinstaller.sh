@@ -94,7 +94,7 @@ createservice "buf"
 sudo systemctl enable bufservice
 
 createautorestartingminer
-chmod +x /root/restartscript.sh
+chmod +x /root/restartingscript.sh
 createservice "restarting"
 
 
