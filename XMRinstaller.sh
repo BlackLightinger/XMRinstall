@@ -39,8 +39,9 @@ createautorestartingminer(){
 cat <<EOF > /root/restartingscript.sh
 #!/bin/bash
 
+cd root
 screen -AmdS work;
-screen -S work -X register c $'/root/xmrig/build/./xmrig'
+screen -S work -X register c $'/root/xmrig/build/./xmrig\n'
 screen -S work -X paste c
 
 EOF
