@@ -33,7 +33,6 @@ ExecStart=/root/$1script.sh
 WantedBy=multi-user.target
 
 EOF
-sudo systemctl enable $1service
 }
 
 createautorestartingminer(){
@@ -65,8 +64,8 @@ sudo rm /root/bufscript.sh
 sudo systemctl disable bufservice
 sudo rm /root/etc/systemd/system/bufservice.service
 
-createautorestartingminer
-createservice "restarting"
+sudo systemctl enable restartingservice
+
 reboot
 
 EOF
@@ -78,7 +77,7 @@ sudo apt -y upgrade
 sudo apt-get -y update
 sudo apt autoremove
 createconfig "$1" "$2"
-createSettingXMRMiner 
+createSettingXMRMiner
 
 
 cat <<EOF > /root/bufscript.sh
@@ -90,7 +89,13 @@ chmod +x SettingXMRMiner.sh
 
 EOF
 
-chmod +x bufscript.sh
+chmod +x /root/bufscript.sh
 createservice "buf"
+sudo systemctl enable bufservice
+
+createautorestartingminer
+chmod +x /root/restartscript.sh
+createservice "restarting"
+
 
 reboot
