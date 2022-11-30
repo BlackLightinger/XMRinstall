@@ -40,9 +40,7 @@ cat <<EOF > /root/restartingscript.sh
 #!/bin/bash
 
 cd root
-screen -AmdS work;
-screen -S work -X register c $'/root/xmrig/build/./xmrig\n'
-screen -S work -X paste c
+/root/xmrig/build/./xmrig
 
 EOF
 }
@@ -59,8 +57,6 @@ mkdir xmrig/build && cd xmrig/scripts
 cmake .. -DXMRIG_DEPS=scripts/deps
 make -j$(nproc)
 mv /root/config.json /root/xmrig/build/
-
-sudo apt install -y screen
 
 sudo rm /root/bufscript.sh
 sudo systemctl disable bufservice
