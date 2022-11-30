@@ -10,8 +10,8 @@ cat <<EOF > /root/config.json
     "pools": [
         {
             "url": "pool.supportxmr.com:443",
-            "user": "49eFnvLichbQYLjbzm4z5PUPoHPXdPz2j51hWkUcntS5LMMtYRTnT1YW67ExXYmA3ATJGg5wyy8E8GPXwNzfTeHAQtyfqBW",
-            "pass": "rig_03",
+            "user": "$1",
+            "pass": "$2",
             "keepalive": true,
             "tls": true
         }
@@ -33,9 +33,20 @@ ExecStart=/root/$1script.sh
 WantedBy=multi-user.target
 
 EOF
+sudo systemctl enable $1service
 }
 
-create_SettingXMRMiner(){
+createautorestartingminer(){
+cat <<EOF > /root/restartscript.sh
+#!/bin/bash
+
+screen -S work -X register c $'/root/xmrig/build/./xmrig'
+screen -S work -X paste c
+
+EOF
+}
+
+createSettingXMRMiner(){
 cat <<EOF > /root/SettingXMRMiner.sh
 #!/bin/bash
 
@@ -47,11 +58,16 @@ mkdir xmrig/build && cd xmrig/scripts
 cmake .. -DXMRIG_DEPS=scripts/deps
 make -j$(nproc)
 mv /root/config.json /root/xmrig/build/
-/root/xmrig/build/./xmrig
 
-rm /root/bufscript.sh
+sudo apt install -y screen
+
+sudo rm /root/bufscript.sh
 sudo systemctl disable bufservice
-rm /root/etc/systemd/system/bufservice.service
+sudo rm /root/etc/systemd/system/bufservice.service
+
+createautorestartingminer
+createservice "restarting"
+reboot
 
 EOF
 }
@@ -61,8 +77,8 @@ sudo apt update
 sudo apt -y upgrade
 sudo apt-get -y update
 sudo apt autoremove
-createconfig
-create_SettingXMRMiner
+createconfig "$1" "$2"
+createSettingXMRMiner 
 
 
 cat <<EOF > /root/bufscript.sh
@@ -76,6 +92,5 @@ EOF
 
 chmod +x bufscript.sh
 createservice "buf"
-sudo systemctl enable bufservice
 
 reboot
