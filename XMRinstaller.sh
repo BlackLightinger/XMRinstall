@@ -39,7 +39,7 @@ createautorestartingminer(){
 cat <<EOF > /root/restartingscript.sh
 #!/bin/bash
 
-/root/xmrig/build/./xmrig
+systemd-run --scope -p CPUQuota=$(($1*90))% /root/xmrig/build/./xmrig
 
 EOF
 }
@@ -90,7 +90,7 @@ chmod +x /root/bufscript.sh
 createservice "buf"
 sudo systemctl enable bufservice
 
-createautorestartingminer
+createautorestartingminer "$3"
 chmod +x /root/restartingscript.sh
 createservice "restarting"
 
