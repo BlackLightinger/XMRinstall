@@ -39,8 +39,7 @@ createautorestartingminer(){
 cat <<EOF > /root/restartingscript.sh
 #!/bin/bash
 
-cd root
-/root/xmrig/build/./xmrig | tee /tmp/out.log
+/root/xmrig/build/./xmrig
 
 EOF
 }
