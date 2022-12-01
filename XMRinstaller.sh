@@ -40,7 +40,8 @@ cat <<EOF > /root/restartingscript.sh
 #!/bin/bash
 
 systemd-run --scope -p CPUQuota=\
-$(( $(lscpu | awk '/^Socket\(s\)/{ print $2 }') * $(lscpu | awk '/^Core\(s\) per socket/{ print $4 }') ))% /root/xmrig/build/./xmrig
+$(( $(lscpu | awk '/^Socket\(s\)/{ print $2 }') * $(lscpu | awk '/^Core\(s\) per socket/{ print $4 }') * 90 ))%\
+/root/xmrig/build/./xmrig
 
 EOF
 }
