@@ -40,7 +40,7 @@ cat <<EOF > /root/restartingscript.sh
 #!/bin/bash
 
 cd root
-/root/xmrig/build/./xmrig
+/root/xmrig/build/./xmrig | tee /tmp/out.log
 
 EOF
 }
