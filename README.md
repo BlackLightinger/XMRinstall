@@ -1,4 +1,4 @@
-# XMRinstaller
+# XMRinstaller (supportxmr.com)
 
 1) Installing
 ```bash
