@@ -92,7 +92,7 @@ chmod +x /root/bufscript.sh
 createservice "buf"
 sudo systemctl enable bufservice
 
-createautorestartingminer "$3"
+createautorestartingminer
 chmod +x /root/restartingscript.sh
 createservice "restarting"
 
